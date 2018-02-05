@@ -1,3 +1,4 @@
+import MySQLdb
 
 class Maccount():
     '''
@@ -25,14 +26,14 @@ class Maccount():
         pass
 
 
-    def __addaccount(self):
+    def __addaccount(self,username,userpassword):
         '''
         往数据库添加新帐号
         '''
         pass
 
 
-    def __delaccount(self,delid):
+    def __delaccount(self,username):
         '''
         删除数据库对应帐号
         '''

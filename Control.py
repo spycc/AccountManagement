@@ -1,6 +1,6 @@
-#import Maccount
+from Maccount import Maccount
 
-class UserControl():
+class UserControl(Maccount):
     '''
     用户操作系统，负责功能操作
     总调度终端：usercontrol(self)
