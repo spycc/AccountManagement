@@ -50,9 +50,9 @@ class Maccount():
         '''
         conn, cur = cls.__openmysql()
         if user != '' and passwd != '':
-            print (user+passwd)
-            # cur.execute("insert into `accounts`(`username`,`password`)values(%s,%s)"%(user,passwd))
-            # conn.commit()
+            sqlcount = "insert into accounts(username, password)values('{}','{}')".format(user,passwd)
+            cur.execute(sqlcount)
+            conn.commit()
         elif user == '' and passwd != '':
             pass
         else:
