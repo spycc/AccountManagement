@@ -50,7 +50,7 @@ class UserControl(Maccount):
         '''
         展示流程
         '''
-        print('sjfopwejfpwefkpwekfwe')
+        Maccount.go(self,1)
         print('按2返回')
         input()
         self.usercontrol()
