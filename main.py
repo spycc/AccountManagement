@@ -1,5 +1,4 @@
-from Control import UserControl
-#from Maccount import Maccount
+from Flow import Flow
 
-a = UserControl()
-a.usercontrol()
+a = Flow()
+a.flowmain()

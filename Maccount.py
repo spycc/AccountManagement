@@ -2,18 +2,14 @@ import pymysql.cursors
 
 class Maccount():
     '''
-    帐号管理类，主要功能如下：
-    执行程序：go(self)
+    数据传输程序，用于对数据库内容的查询、读取和存入
     打开数据库：__openmysql(self)
     关闭数据库：__closemysql(self)
-    帐号添加：__addaccount(self)
-    帐号删除：__delaccount(self,delid)
-    帐号修改：__reviseaccount(self, revisepr, delid)
-    帐号展示：__showaccount(self)
-    帐号查询：__queryaccount(self)
+    帐号信息查询：__queryaccount(self)
     '''
 
-    def __openmysql(self):
+    @classmethod
+    def __openmysql(cls):
         '''
         打开数据库,返回两个参数conn和cur
         '''
@@ -21,60 +17,47 @@ class Maccount():
         cur = conn.cursor()
         return conn,cur
     
-    def __closemysql(self,conn,cur):
+
+    @classmethod
+    def __closemysql(cls, conn, cur):
         '''
         关闭数据库，接受两个参数conn和cur
         '''
         cur.close()
         conn.close()
-
-
-    def __addaccount(self,username,userpassword):
-        '''
-        往数据库添加新帐号
-        '''
-        conn,cur = self.__openmysql()
-
-
-
-    def __delaccount(self,username):
-        '''
-        删除数据库对应帐号
-        '''
-        pass
-
-
-    def __reviseaccount(self, revisepr, delid):
-        '''
-        修改数据库中对应帐号或密码
-        '''
-        pass
-
-
-    def __showaccount(self):
-        '''
-        展示所有账户
-        '''
-        conn, cur = self.__openmysql()
-        cur.execute('SELECT * FROM accounts')
-        return cur.fetchall()
-        self.__closemysql(conn, cur)
     
 
-    def __queryaccount(self, user):
+    @classmethod
+    def queryaccount(cls, user=''):
         '''
-        帐号信息查询，接受一个帐号，返回帐号相关信息。
+        信息查询，接受一个用户名参数，返回帐号相关的所有信息。
+        1.如参数为空，则返回所有数据库数据
+        2.如参数有内容，则查询对应帐号，并返回帐号的信息如无该帐号，则返回False
         '''
-        pass
+        conn, cur = cls.__openmysql()
+        if user == '':
+            cur.execute('SELECT * FROM accounts')
+            return cur.fetchall()
+        else:
+            return ('未完成')
+        cls.__closemysql(conn, cur)
 
-    
+    @classmethod
+    def add(cls, user='', passwd=''):
+        '''
+        添加数据到数据库
+        1,只传入不为空的数据
+        '''
+        conn, cur = cls.__openmysql()
+        if user != '' and passwd != '':
+            print (user+passwd)
+            # cur.execute("insert into `accounts`(`username`,`password`)values(%s,%s)"%(user,passwd))
+            # conn.commit()
+        elif user == '' and passwd != '':
+            pass
+        else:
+            pass
+        cls.__closemysql(conn, cur)
 
-    
-    def go(self,zl):
-        '''
-        执行函数
-        '''
-        funclist = {1:self.__showaccount, 2:self.__queryaccount, 3:self.__addaccount ,4:self.__reviseaccount, 5:self.__delaccount,}
-        funclist[zl]()
 
         
