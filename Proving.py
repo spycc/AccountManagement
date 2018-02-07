@@ -1,14 +1,17 @@
+
 class Proving():
     '''
     输入验证机制，包括流程验证和信息验证
     '''
 
-    def prmainflow(self,user):
+    @classmethod
+    def prtwochoose(cls):
         '''
-        主流程输入错误提示
-        传入一个验证参数，判断是否属于主流程的6个数字之中，如果是，则执行，不是则提示重新输入
+        2选项输入验证,判断输入是否是1-2.
         '''
-        if user in [1,2,3,4,5]:
-            return True
+        a = input()
+        while a not in ['1', '2']:
+            print('您输入的指令有误，请重新输入')
+            a = input()
         else:
-            return False
+            return a

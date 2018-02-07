@@ -28,36 +28,63 @@ class Maccount():
     
 
     @classmethod
-    def queryaccount(cls, user=''):
+    def queryaccount(cls, seach=''):
         '''
-        信息查询，接受一个用户名参数，返回帐号相关的所有信息。
-        1.如参数为空，则返回所有数据库数据
-        2.如参数有内容，则查询对应帐号，并返回帐号的信息如无该帐号，则返回False
+        信息查询，支持全部和单条消息查询。
+        1.查询全部：参数为空是查询该表全部数据
+        2.查询单条：如参数有内容，则查询对应username，返回帐号的信息如无该帐号，则返回（）
         '''
         conn, cur = cls.__openmysql()
-        if user == '':
+        if seach == '':
             cur.execute('SELECT * FROM accounts')
-            return cur.fetchall()
+            data = cur.fetchall()
         else:
-            return ('未完成')
+            sqlcount = "SELECT * FROM accounts WHERE username ='{}'".format(seach)
+            cur.execute(sqlcount)
+            data = cur.fetchall()
         cls.__closemysql(conn, cur)
+        return data
+
+
 
     @classmethod
-    def add(cls, user='', passwd=''):
+    def addaccount(cls, user, passwd):
         '''
         添加数据到数据库
-        1,只传入不为空的数据
+        1，添加帐号和密码：传入2个参数
+        2，修改密码：传入密码参数
+        3，修改帐号：传入帐号参数
         '''
         conn, cur = cls.__openmysql()
-        if user != '' and passwd != '':
-            sqlcount = "insert into accounts(username, password)values('{}','{}')".format(user,passwd)
-            cur.execute(sqlcount)
-            conn.commit()
-        elif user == '' and passwd != '':
-            pass
-        else:
-            pass
+        sqlcount = "insert into accounts(username, password)values('{}','{}')".format(user,passwd)
+        cur.execute(sqlcount)
+        conn.commit()
         cls.__closemysql(conn, cur)
+
+
+
+    @classmethod
+    def reviseaccount(cls,user,passwd):
+        conn,cur = cls.__openmysql()
+        sqlcount = "update accounts set password = '{}' where username = '{}'".format(passwd,user)
+        cur.execute(sqlcount)
+        conn.commit()
+        cls.__closemysql(conn,cur)
+
+
+
+    @classmethod
+    def delaccount(cls, name):
+        '''
+        数据删除程序
+        '''
+        conn,cur = cls.__openmysql()
+        sqlcount = "delete from accounts where username = '{}'".format(name)
+        cur.execute(sqlcount)
+        conn.commit()
+        cls.__closemysql(conn, cur)
+
+
 
 
         
